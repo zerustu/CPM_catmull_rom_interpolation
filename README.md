@@ -2,7 +2,9 @@
 interpolation tool base on [dearfox's work](https://github.com/DearFox/cpm-tools) but with catmull rom interpolation for a smoother curve.
 
 this respitory have two files:
+
 -animation.js contains the function you will have to add to your animation.js file of your model to make the animation work.
+
 -[CPM_interpolation.html](https://val9k.github.io/CPM_catmull_rom_interpolation/CPM_interpolation.html) : upload your animation file from blockbench on this page and put the output lines in the updatefunction of your animation.js .
 
 # Info :
