@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>zerustu's CPM interpolation tool</title>
+</head>
+<body style="background: dimgray;">
+	<input type="file" id="file-selector" class="test" accept=".json">
+	<br>
+	<button type="button" onclick="readFile(document.getElementsByClassName('test')[0])">Load!</button>
+	<br>
+	<div class="output"></div>
+	<script type="text/javascript">
+		var output=document.getElementsByClassName("output")[0]
+
+		function readFile(input) {
+			console.log(input);
+  let file = input.files[0];
+
+  let reader = new FileReader();
+
+  reader.readAsText(file);
+
+  reader.onerror = function() {
+    console.log(reader.error);
+  };
+
+  reader.onload = function() {
+		var a = JSON.parse(reader.result);
+		var b = Object.values(Object.values(a))[1];
+		var c = Object.values(Object.values(b))[0];
+		var d = Object.values(Object.values(c))[2];
+		var loop = c.loop;
+		var t0;
+		var t1;
+		var t2;
+		var t3;
+		var p0;
+		var p1;
+		var p2;
+		var p3;
+		var m1;
+		var m2;
+		if (a.format_version == "1.8.0"){
+		console.log(Object.keys(d));
+		var res = "Rotation animation:";
+		for (var i=0; i<Object.values(d).length;i++){
+			var bone = Object.keys(d)[i];
+			var bones_name = JSON.stringify(bone).replace(/['"]+/g, '')
+			var res_temp = ''
+			console.log(bones_name);
+			if(Object.values(d)[i].rotation!=undefined){
+				for (let i1=0; i1<Object.values(Object.values(d)[i].rotation).length-1;i1++){
+					t1 = parseFloat(Object.keys(Object.values(d)[i].rotation)[i1]);
+					p1 = Object.values(Object.values(d)[i].rotation)[i1];
+					t2 = parseFloat(Object.keys(Object.values(d)[i].rotation)[i1+1]);
+					p2 = Object.values(Object.values(d)[i].rotation)[i1+1];
+					if (Object.values(Object.values(d)[i].rotation)[i1].post==undefined){
+						res_temp = res_temp+t1+',['
+						for (let x=0;x<3; x++) {
+							res_temp = res_temp + '[ 0, 0,' + (p2[x]-p1[x]) +', ' + p1[x]+'],' 
+						}
+						res_temp = res_temp.substr(0, res_temp.length -2) + ']],';
+						console.log(res_temp)
+					} 
+					else {
+						p1 = p1.post;
+						p2 = p2.post;
+						if(i1 == 0){
+							t0= parseFloat(Object.keys(Object.values(d)[i].rotation)[Object.values(Object.values(d)[i].rotation).length-2])-c.animation_length;
+							p0= Object.values(Object.values(d)[i].rotation)[Object.values(Object.values(d)[i].rotation).length-2].post;
+						}
+						else {
+							t0 = parseFloat(Object.keys(Object.values(d)[i].rotation)[i1-1]);
+							p0 = Object.values(Object.values(d)[i].rotation)[i1-1].post;
+						}
+						if( i1 == Object.values(Object.values(d)[i].rotation).length-2) {
+							t3 = parseFloat(Object.keys(Object.values(d)[i].rotation)[1])+c.animation_length;
+							p3 = Object.values(Object.values(d)[i].rotation)[1].post;
+						}
+						else {
+							t3 = parseFloat(Object.keys(Object.values(d)[i].rotation)[i1+2]);
+							p3 = Object.values(Object.values(d)[i].rotation)[i1+2].post;
+						}
+						res_temp = res_temp+t1+',['
+						for (let x=0; x<3; x++) {
+							m1 = (t2-t1)*((p1[x]-p0[x])/(t1-t0)-(p2[x]-p0[x])/(t2-t0)+(p2[x]-p1[x])/(t2-t1));
+							m2 = (t2-t1)*((p2[x]-p1[x])/(t2-t1)-(p3[x]-p1[x])/(t3-t1)+(p3[x]-p2[x])/(t3-t2));
+							res_temp = res_temp + '[ '+(2*p1[x]-2*p2[x]+m1+m2) + ', ' + (-3*p1[x] +3*p2[x]-2*m1-m2) + ',' + m1 +', ' + p1[x]+'],' 
+						}
+						res_temp = res_temp.substr(0, res_temp.length -2) + ']],';
+						console.log(res_temp)
+					}
+				}
+				res= res+'<br>'+'animation_catmullrom_rotation(entity,model,['+res_temp.slice(0, -1)+c.animation_length+'[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+",'"+bones_name+"',0,0,0);"
+				output.innerHTML = res
+			}
+			res_temp = ''
+			if(Object.values(d)[i].position!=undefined){
+				for (let i1=0; i1<Object.values(Object.values(d)[i].position).length-1;i1++){
+					t1 = parseFloat(Object.keys(Object.values(d)[i].position)[i1]);
+					p1 = Object.values(Object.values(d)[i].position)[i1];
+					t2 = parseFloat(Object.keys(Object.values(d)[i].position)[i1+1]);
+					p2 = Object.values(Object.values(d)[i].position)[i1+1];
+					if (Object.values(Object.values(d)[i].position)[i1].post==undefined){
+						res_temp = res_temp+t1+',['
+						for (let x=0;x<3; x++) {
+							res_temp = res_temp + '[ 0, 0,' + (p2[x]-p1[x]) +', ' + p1[x]+'],' 
+						}
+						res_temp = res_temp.substr(0, res_temp.length -2) + ']],';
+						console.log(res_temp)
+					} 
+					else {
+						p1 = p1.post;
+						p2 = p2.post;
+						if(i1 == 0){
+							t0= parseFloat(Object.keys(Object.values(d)[i].position)[Object.values(Object.values(d)[i].position).length-2])-c.animation_length;
+							p0= Object.values(Object.values(d)[i].position)[Object.values(Object.values(d)[i].position).length-2].post;
+						}
+						else {
+							t0 = parseFloat(Object.keys(Object.values(d)[i].position)[i1-1]);
+							p0 = Object.values(Object.values(d)[i].position)[i1-1].post;
+						}
+						if( i1 == Object.values(Object.values(d)[i].position).length-2) {
+							t3 = parseFloat(Object.keys(Object.values(d)[i].position)[1])+c.animation_length;
+							p3 = Object.values(Object.values(d)[i].position)[1].post;
+						}
+						else {
+							t3 = parseFloat(Object.keys(Object.values(d)[i].position)[i1+2]);
+							p3 = Object.values(Object.values(d)[i].position)[i1+2].post;
+						}
+						res_temp = res_temp+t1+',['
+						for (let x=0; x<3; x++) {
+							m1 = (t2-t1)*((p1[x]-p0[x])/(t1-t0)-(p2[x]-p0[x])/(t2-t0)+(p2[x]-p1[x])/(t2-t1));
+							m2 = (t2-t1)*((p2[x]-p1[x])/(t2-t1)-(p3[x]-p1[x])/(t3-t1)+(p3[x]-p2[x])/(t3-t2));
+							res_temp = res_temp + '[ '+(2*p1[x]-2*p2[x]+m1+m2) + ', ' + (-3*p1[x] +3*p2[x]-2*m1-m2) + ',' + m1 +', ' + p1[x]+'],' 
+						}
+						res_temp = res_temp.substr(0, res_temp.length -2) + ']],';
+						console.log(res_temp)
+					}
+				}
+				res= res+'<br>'+'animation_catmullrom_position(entity,model,['+res_temp.slice(0, -1)+c.animation_length+'[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+",'"+bones_name+"',0,0,0);"
+				output.innerHTML = res
+			}
+		}
+	} else if (a.format_version != undefined){
+		output.innerHTML = "Your model format is : "+ a.format_version + " This model format is not supported at the moment!";
+	} else {
+		output.innerHTML = "This file is invalide. please make sure you selected an animation file."
+	}
+
+		};
+
+  
+
+}
+		//Object.values() length
+	</script>
+</body>
+</html>
