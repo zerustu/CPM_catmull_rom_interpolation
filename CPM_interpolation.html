@@ -93,7 +93,7 @@
 						console.log(res_temp)
 					}
 				}
-				res= res+'<br>'+'animation_catmullrom_rotation(entity,model,['+res_temp.slice(0, -1)+c.animation_length+'[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+",'"+bones_name+"',0,0,0);"
+				res= res+'<br>'+'animation_catmullrom_rotation(entity,model,['+res_temp.slice(0, -1)+','+c.animation_length+',[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+",'"+bones_name+"',0,0,0);"
 				output.innerHTML = res
 			}
 			res_temp = ''
@@ -140,7 +140,7 @@
 						console.log(res_temp)
 					}
 				}
-				res= res+'<br>'+'animation_catmullrom_position(entity,model,['+res_temp.slice(0, -1)+c.animation_length+'[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+",'"+bones_name+"',0,0,0);"
+				res= res+'<br>'+'animation_catmullrom_position(entity,model,['+res_temp.slice(0, -1)+','+c.animation_length+',[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+",'"+bones_name+"',0,0,0);"
 				output.innerHTML = res
 			}
 		}
