@@ -13,7 +13,7 @@ It work great on lopping animation but if your animation doesn't loop, make sur 
 
 catmull rom interpolation is smoother than a linear one but is heavy on clculation. if you don't need this interpolation, i recommand you use dearFox's tool as it will be lighter on calculation.
 
-also, the catmull rom interpolation is calculated if the animation is save as an smooth animation in blockbench. if you see that the output function have a lot of [0,0,X,X], it means that some segment are calculated with linear interpolation.
+also, the catmull rom interpolation is calculated if the animation is save as an smooth animation in blockbench. if you see that the output function have a lot of [0,0,X,X], it means that some segment are calculated with linear interpolation, go back in blockbench, select your keyframe and change the interpolation to smooth.
 
 # Credit :
 
