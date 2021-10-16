@@ -60,8 +60,9 @@
 		var force_catmull = document.getElementById("force_catmull").checked;
 		var base_fun = "animation_catmullrom_rotation(";
 		if (!custom_timer) {base_fun = base_fun + "entity,";}
-		else {base_fun = base_fun + timer +",";}; 
-		if(!skip_model) {base_fun = base_fun + "model,";};
+		else {base_fun = "ct_" + base_fun + timer +",";}; 
+		if(!skip_model) {base_fun = base_fun + "model,";}
+	  	else {base_fun = "sm_" + base_fun;};
 		if (a.format_version == "1.8.0"){
 		console.log(Object.keys(d));
 		var res = "Rotation animation:";
