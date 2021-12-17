@@ -59,16 +59,16 @@
 		var skip_model = document.getElementById("bone_name").checked;
 	  	var base_fun_2;
 		var force_catmull = document.getElementById("force_catmull").checked;
-		var base_fun = "animation_catmullrom_rotation(";
-		if (!custom_timer) {base_fun = base_fun + "entity,";}
-		else {base_fun = "ct_" + base_fun + timer +",";}; 
-		if(!skip_model) {base_fun = base_fun + "model,";}
-	  	else {base_fun = "sm_" + base_fun;};
+		var base_fun = "animation_catmullrom";
 		if (a.format_version == "1.8.0"){
 		console.log(Object.keys(d));
 		var res = "Rotation animation:";
 		for (var i=0; i<Object.values(d).length;i++){
 			var base_fun_2 = base_fun + "_rotation(";
+			if (!custom_timer) {base_fun_2 = base_fun_2 + "entity,";}
+			else {base_fun_2 = "ct_" + base_fun_2 + timer +",";}; 
+			if(!skip_model) {base_fun_2 = base_fun_2 + "model,";}
+	  		else {base_fun_2 = "sm_" + base_fun_2;};
 			var bone = Object.keys(d)[i];
 			var bones_name = JSON.stringify(bone).replace(/['"]+/g, '')
 			if(!skip_model) {bones_name = "'" + bones_name + "'";};
@@ -125,6 +125,10 @@
 			res_temp = ''
 			if(Object.values(d)[i].position!=undefined){
 				base_fun_2 = base_fun + "_position(";
+				if (!custom_timer) {base_fun_2 = base_fun_2 + "entity,";}
+				else {base_fun = "ct_" + base_fun_2 + timer +",";}; 
+				if(!skip_model) {base_fun_2 = base_fun_2 + "model,";}
+	  			else {base_fun_2 = "sm_" + base_fun_2;};
 				for (let i1=0; i1<Object.values(Object.values(d)[i].position).length-1;i1++){
 					t1 = parseFloat(Object.keys(Object.values(d)[i].position)[i1]);
 					p1 = Object.values(Object.values(d)[i].position)[i1];
