@@ -58,17 +58,21 @@
 		var custom_timer = document.getElementById("time_spe").checked;
 		var skip_model = document.getElementById("bone_name").checked;
 	  	var base_fun_2;
-		var force_catmull = document.getElementById("force_catmull").checked;
 		var base_fun = "animation_catmullrom";
+		if (!custom_timer) {base_fun_2 = "entity,";}
+		else {
+			base_fun_2 = timer +",";
+			base_fun = "ct_"+ base_fun;
+		     }; 
+		if(!skip_model) {base_fun_2 = base_fun_2 + "model,";}
+	  	else {
+			base_fun = "sm_" + base_fun;
+		};
+		var force_catmull = document.getElementById("force_catmull").checked;
 		if (a.format_version == "1.8.0"){
 		console.log(Object.keys(d));
 		var res = "Rotation animation:";
 		for (var i=0; i<Object.values(d).length;i++){
-			var base_fun_2 = base_fun + "_rotation(";
-			if (!custom_timer) {base_fun_2 = base_fun_2 + "entity,";}
-			else {base_fun_2 = "ct_" + base_fun_2 + timer +",";}; 
-			if(!skip_model) {base_fun_2 = base_fun_2 + "model,";}
-	  		else {base_fun_2 = "sm_" + base_fun_2;};
 			var bone = Object.keys(d)[i];
 			var bones_name = JSON.stringify(bone).replace(/['"]+/g, '')
 			if(!skip_model) {bones_name = "'" + bones_name + "'";};
@@ -119,16 +123,11 @@
 						console.log(res_temp)
 					}
 				}
-				res= res+'<br>'+base_fun_2 + '['+res_temp.slice(0, -1)+','+c.animation_length+',[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+","+bones_name+",0,0,0);"
+				res= res+'<br>'+base_fun + "_rotation(" + base_fun_2 + '['+res_temp.slice(0, -1)+','+c.animation_length+',[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+","+bones_name+",0,0,0);"
 				output.innerHTML = res
 			}
 			res_temp = ''
 			if(Object.values(d)[i].position!=undefined){
-				base_fun_2 = base_fun + "_position(";
-				if (!custom_timer) {base_fun_2 = base_fun_2 + "entity,";}
-				else {base_fun = "ct_" + base_fun_2 + timer +",";}; 
-				if(!skip_model) {base_fun_2 = base_fun_2 + "model,";}
-	  			else {base_fun_2 = "sm_" + base_fun_2;};
 				for (let i1=0; i1<Object.values(Object.values(d)[i].position).length-1;i1++){
 					t1 = parseFloat(Object.keys(Object.values(d)[i].position)[i1]);
 					p1 = Object.values(Object.values(d)[i].position)[i1];
@@ -173,7 +172,7 @@
 						console.log(res_temp)
 					}
 				}
-				res= res+'<br>'+base_fun_2 + '['+res_temp.slice(0, -1)+','+c.animation_length+',[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+","+bones_name+",0,0,0);"
+				res= res+'<br>'+base_fun + "_position(" + base_fun_2 + '['+res_temp.slice(0, -1)+','+c.animation_length+',[[0,0,0,0],[0,0,0,0],[0,0,0,0]]],'+c.animation_length+","+bones_name+",0,0,0);"
 				output.innerHTML = res
 			}
 		}
