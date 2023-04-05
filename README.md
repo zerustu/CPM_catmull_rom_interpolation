@@ -6,7 +6,7 @@ this respitory have two files:
 -animation.js contains the function you will have to add to your animation.js file of your model to make the animation work.
 there are multiple function, the one you need depend on what funtion you used (in the worst case, you can add all of them, they are not incompatible
 
--[CPM_interpolation.html](https://val9k.github.io/CPM_catmull_rom_interpolation/CPM_interpolation.html) : upload your animation file from blockbench on this page and put the output lines in the updatefunction of your animation.js . (option explane later in the read_me file)
+-[CPM_interpolation.html](https://zerustu.github.io/CPM_catmull_rom_interpolation/CPM_interpolation.html) : upload your animation file from blockbench on this page and put the output lines in the updatefunction of your animation.js . (option explane later in the read_me file)
 
 # Info :
 the catmull interpolation require 4 point to calculate the cuver between the two middle point:
